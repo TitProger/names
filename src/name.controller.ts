@@ -1,7 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
 
-const Names = ['Tit', 'Ramil'];
-const newNames = [];
+class NameDto {
+  name: string;
+}
+
+let Names = ['Tit', 'Ramil'];
+
 @Controller('names')
 export class NameController {
   @Get()
@@ -10,11 +14,16 @@ export class NameController {
   }
 
   @Post()
-  saveName(@Body() object: any) {
+  saveName(@Body() object: NameDto) {
     Names.push(object.name);
     return Names;
+  }
 
-    // Names.push(name);
-    // console.log(name);
+  @Delete()
+  deleteName(@Body() object: { name: string }) {
+    Names = Names.filter((name) => {
+      return name !== object.name;
+    });
+    return Names;
   }
 }
