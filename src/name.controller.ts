@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 
 class NameDto {
   name: string;
@@ -25,5 +25,19 @@ export class NameController {
       return name !== object.name;
     });
     return Names;
+  }
+
+  @Patch()
+  updateName(@Body() object: { oldName: string; newName: string }) {
+    function del(name: string): boolean {
+      return object.oldName !== name;
+    }
+
+    const bezOldNameNames = Names.filter(del);
+    if (bezOldNameNames.length < Names.length) {
+      Names = bezOldNameNames;
+      Names.push(object.newName);
+      return Names;
+    } else return Names;
   }
 }
