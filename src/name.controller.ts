@@ -29,7 +29,7 @@ export class NameController {
 
   @Patch()
   updateName(@Body() object: { oldName: string; newName: string }) {
-    function del(name): boolean {
+    function del(name: string): boolean {
       return object.oldName !== name;
     }
 
